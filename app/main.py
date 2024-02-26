@@ -1,4 +1,5 @@
 from fastapi import FastAPI,status
+from fastapi import Request
 from fastapi.responses import JSONResponse
 
 from pydantic import BaseModel
@@ -28,6 +29,11 @@ class Item(BaseModel):
 
 app = FastAPI()
 
+@app.post("/dummypath")
+async def get_body(request: Request):
+    tmp = await request.json()
+    print(tmp)
+    return tmp
 
 @app.post("/https2mqtts/")
 async def create_item(item: Item):
