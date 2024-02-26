@@ -10,7 +10,8 @@ services:
       - "traefik.http.routers.2mqtt.rule=Host(`https2mqtts.alexwtz.ch`)"
       - "traefik.http.routers.2mqtt.entrypoints=websecure"
       - "traefik.http.routers.2mqtt.tls.certresolver=myresolver"
-
+    env_file:
+      - path: ./.env
     ports:
       - "8080:80"
     #networks:
