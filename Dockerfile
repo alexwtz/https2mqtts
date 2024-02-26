@@ -16,10 +16,11 @@ COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r /code/requirements.txt
 
 # 
-COPY ./app /code/app
 RUN apt install wget -y
 RUN wget https://github.com/hivemq/mqtt-cli/releases/download/v4.25.0/mqtt-cli-4.25.0.deb
 RUN dpkg -i mqtt-cli-4.25.0.deb
+
+COPY ./app /code/app
 
 EXPOSE 80
 
