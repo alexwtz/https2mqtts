@@ -1,0 +1,22 @@
+version: "3.3"
+
+services:
+  https2mqtts:
+    build: .
+    container_name: "https2mqtts"
+    labels:
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.2mqtt.rule=Host(`https2mqtts.alexwtz.ch`)"
+      - "traefik.http.routers.2mqtt.entrypoints=websecure"
+      - "traefik.http.routers.2mqtt.tls.certresolver=myresolver"
+
+    ports:
+      - "8080:80"
+    #networks:
+    #  - proxy
+    restart: unless-stopped
+
+#networks:
+#  proxy:
+#   external: true
