@@ -32,7 +32,8 @@ app = FastAPI()
 @app.post("/dummypath")
 async def get_body(request: Request):
     tmp = await request
-    print(str(tmp))
+    with open('output.txt', 'a') as f:
+        f.write(str(tmp))
     return str(tmp)
 
 @app.post("/https2mqtts/")
