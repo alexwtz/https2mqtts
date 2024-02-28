@@ -21,8 +21,9 @@ RUN wget https://github.com/hivemq/mqtt-cli/releases/download/v4.25.0/mqtt-cli-4
 RUN dpkg -i mqtt-cli-4.25.0.deb
 
 COPY ./app /code/app
+COPY ./log.ini /code/log.ini
 
 EXPOSE 80
 
 # 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--log-config", "/code/log.ini"]
