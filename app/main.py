@@ -3,7 +3,12 @@ from fastapi import Request
 from fastapi.responses import JSONResponse
 
 from pydantic import BaseModel
+from typing import Dict, Any
 import os
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 USER = os.getenv('MQTT_USER')
 PASSWORD = os.environ.get('MQTT_PASSWORD')
@@ -31,10 +36,11 @@ app = FastAPI()
 
 @app.post("/dummypath")
 async def get_body(request: Request):
-    tmp = await request
+    req = await request.body()
+    logger.debug(f"{request.method} {request.url} ***  {req}")
     with open('output.txt', 'a') as f:
-        f.write(str(tmp))
-    return str(tmp)
+        f.write(f"{req}\n***\n")
+    return req
 
 @app.post("/https2mqtts/")
 async def create_item(item: Item):
