@@ -31,9 +31,9 @@ app = FastAPI()
 
 @app.post("/dummypath")
 async def get_body(request: Request):
-    tmp = await request.json()
-    print(tmp)
-    return tmp
+    tmp = await request
+    print(str(tmp))
+    return str(tmp)
 
 @app.post("/https2mqtts/")
 async def create_item(item: Item):
