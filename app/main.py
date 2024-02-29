@@ -5,6 +5,7 @@ from dragino import decode_body
 
 from pydantic import BaseModel
 from typing import Dict, Any
+from app.dragino import decode_body
 import os
 
 USER = os.getenv('MQTT_USER')
