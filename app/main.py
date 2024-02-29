@@ -30,6 +30,8 @@ async def get_body(request: Request):
 @app.post("/https2mqtts")
 async def get_body(request: Request):
     body = await request.body()
+    if body is None:
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content="MQTT: no body")
     json_data=decode_body(body)
     if json_data:
         with open('output.txt', 'a') as f:
@@ -38,4 +40,4 @@ async def get_body(request: Request):
         #output = stream.read()
         return JSONResponse(status_code=status.HTTP_200_OK, content=f"MQTT: msg transmitted to {item.topic}")
     else:
-        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content="MQTT: invalid token")
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content="MQTT: invalid json")
