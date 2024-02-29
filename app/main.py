@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 
 from pydantic import BaseModel
 from typing import Dict, Any
+from app.dragino import decode_body
 import os
 
 USER = os.getenv('MQTT_USER')
@@ -28,7 +29,7 @@ async def get_body(request: Request):
 @app.post("/https2mqtts")
 async def get_body(request: Request):
     body = await request.body()
-    json_data=dragino.decode_body(body)
+    json_data=decode_body(body)
     if json_data:
         with open('output.txt', 'a') as f:
             f.write(f"{json_data}\n***\n")
