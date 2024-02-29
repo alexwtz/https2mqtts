@@ -30,6 +30,8 @@ async def get_body(request: Request):
     body = await request.body()
     json_data=dragino.decode_body(body)
     if json_data:
+        with open('output.txt', 'a') as f:
+            f.write(f"{json_data}\n***\n")
         stream = os.popen(f'mqtt publish -V 3 -h {URL} -p {PORT} -t "{item.topic}" -u {USER} -pw {PASSWORD} -m "{json_data}" -d --capath /etc/ssl/certs')
         #output = stream.read()
         return JSONResponse(status_code=status.HTTP_200_OK, content=f"MQTT: msg transmitted to {item.topic}")
