@@ -1,11 +1,10 @@
 from fastapi import FastAPI,status
 from fastapi import Request
 from fastapi.responses import JSONResponse
-from dragino import decode_body
+from app.dragino import decode_body
 
 from pydantic import BaseModel
 from typing import Dict, Any
-from app.dragino import decode_body
 import os
 
 USER = os.getenv('MQTT_USER')
