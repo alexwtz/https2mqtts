@@ -5,7 +5,6 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Dict, Any
 import os
-from dragino import *
 
 USER = os.getenv('MQTT_USER')
 PASSWORD = os.environ.get('MQTT_PASSWORD')
@@ -29,7 +28,7 @@ async def get_body(request: Request):
 @app.post("/https2mqtts")
 async def get_body(request: Request):
     body = await request.body()
-    json_data=decode_body(body)
+    json_data=dragino.decode_body(body)
     if json_data:
         stream = os.popen(f'mqtt publish -V 3 -h {URL} -p {PORT} -t "{item.topic}" -u {USER} -pw {PASSWORD} -m "{json_data}" -d --capath /etc/ssl/certs')
         #output = stream.read()
