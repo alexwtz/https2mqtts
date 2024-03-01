@@ -13,6 +13,7 @@ URL = os.environ.get('MQTT_URL')
 PORT = os.environ.get('MQTT_PORT')
 TOKEN = os.environ.get('API_TOKEN')
 
+topic='office/sensor1'
 
 app = FastAPI()
 
@@ -35,7 +36,11 @@ async def get_body(request: Request):
     if json_data:
         with open('output.txt', 'a') as f:
             f.write(f"{json_data}\n***\n")
-        stream = os.popen(f'mqtt publish -V 3 -h {URL} -p {PORT} -t "{item.topic}" -u {USER} -pw {PASSWORD} -m "{json_data}" -d --capath /etc/ssl/certs')
+        data = {
+            "temperature":json_data['decoded']['TempC_SHT'],
+            "humidity":json_data['decoded']['Hum_SHT']
+        }
+        stream = os.popen(f'mqtt publish -V 3 -h {URL} -p {PORT} -t "{topic}" -u {USER} -pw {PASSWORD} -m "{data}" -d --capath /etc/ssl/certs')
         #output = stream.read()
         return JSONResponse(status_code=status.HTTP_200_OK, content=f"MQTT: msg transmitted to {item.topic}")
     else:
