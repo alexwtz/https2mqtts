@@ -16,6 +16,7 @@ services:
     #  - "8080:80"
     volumes:
       - ./output.txt:/code/output.txt
+      - /etc/ssl/certs/ca-certificates.crt:/code/ca-certificates.crt
     networks:
       - proxy
     restart: unless-stopped
