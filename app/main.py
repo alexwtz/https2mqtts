@@ -41,7 +41,7 @@ async def get_body(request: Request):
             "humidity":json_data['decoded']['Hum_SHT']
         }
         cmd = f'''mqtt publish -V 3 -h {URL} -p {PORT} -t '{topic}' -u {USER} -pw {PASSWORD} 
-		-m '\{"temperature":{json_data['decoded']['TempC_SHT']},"humidity":{json_data['decoded']['Hum_SHT']}\}' 
+		-m '{{"temperature":{json_data['decoded']['TempC_SHT']},"humidity":{json_data['decoded']['Hum_SHT']}}}' 
 		-d --cafile ca-certificates.crt'''
         with open('output.txt', 'a') as f:
             f.write(f"cmd: {cmd}\n***\n")
