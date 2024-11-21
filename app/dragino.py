@@ -10,23 +10,29 @@ Ext_sensor = {
          "7":"Interrupt Sensor count",
        }
 
+def unsigned_to_signed(u):
+    if u < 2**31:
+        return u
+    else:
+        return u - 2**32
+
 def decode_lht65(bytes):
     # Decode an uplink message from a buffer (array) of bytes to an object of fields.
     value = ((bytes[0] << 8) | bytes[1]) & 0x3FFF
-    batV = value / 1000  # Battery voltage in units: V
+    batV = unsigned_to_signed(value) / 1000  # Battery voltage in units: V
 
     value = (bytes[2] << 8) | bytes[3]
     if bytes[2] & 0x80:
         value |= 0xFFFF0000
-    temp_SHT = round(value / 100, 2)  # SHT20 temperature in units: °C
+    temp_SHT = round(unsigned_to_signed(value) / 100, 2)  # SHT20 temperature in units: °C
 
     value = (bytes[4] << 8) | bytes[5]
-    hum_SHT = round(value / 10, 1)  # SHT20 humidity in units: %
+    hum_SHT = round(unsigned_to_signed(value) / 10, 1)  # SHT20 humidity in units: %
 
     value = (bytes[7] << 8) | bytes[8]
     if bytes[7] & 0x80:
         value |= 0xFFFF0000
-    temp_ds = round(value / 100, 2)  # DS18B20 temperature in units: °C
+    temp_ds = round(unsigned_to_signed(value) / 100, 2)  # DS18B20 temperature in units: °C
 
     ext_sensor = Ext_sensor.get(str(bytes[6]&0x7F))
 
